@@ -1,7 +1,20 @@
 #include <stdio.h>
 #define clear() printf("\e[1;1H\e[2J")
 
+void func(void);
+
 int main(void)
+{
+    while(1)
+    {
+        func();
+        clear();
+    }
+
+    return 0;
+}
+
+void func(void)
 {
     for (int i = 0; i < 10; i++)
     {
@@ -19,5 +32,4 @@ int main(void)
         }
         printf("*\n");
     }
-    return 0;
 }
