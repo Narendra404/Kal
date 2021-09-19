@@ -3,6 +3,7 @@
 #define N 80
 
 void Screen();
+void input();
 void keys(int k);
 
 char InputStack[8];
@@ -87,3 +88,25 @@ void keys(int k)
     }
 }
 
+void input()
+{
+    if (AnsFlag == 1)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            InputStack[i] == 'n';
+        }
+    }
+
+    do
+    {   
+        char ch;
+        scanf("%c", &ch);
+        
+        if (ValidChar(ch))
+        {
+            printf("Character entered is not valid.\n");
+            printf("Valid Characters include 0 to 9, +, -, *, /, =, d, q.\n");
+        }
+    }
+    while(ValidChar(ch));
