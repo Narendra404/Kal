@@ -24,25 +24,26 @@ int main(void)
 
 void Screen()
 {
-    Line();
-    Line();
+    Line(N);
+    printf("\n");
+    Line(N);
+    printf("\n");
 
     for (int i = 0; i < 5; i++)
     {
-        printf("** ");
+        Line(2);
         keys(i);
-        printf("**\n");
+        Line(2);
+        printf("\n");
     }
 }
 
-void Line()
+void Line(int n)
 {        
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < n; i++)
     {
         printf("*");
     }
-
-    printf("\n");
 }
 
 
