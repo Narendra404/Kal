@@ -2,18 +2,21 @@
 #include <stdlib.h>
 #include <ctype.h>
 #define clear() printf("\e[1;1H\e[2J")
-#define N 80
+#define N 64
 
 void Screen();
 void input();
-void keys(int k);
+void keys(int k, int n, int m, char ch[]);
 void ClearStack();
 int PushChar(char ch);
 void PopChar();
 void Line();
 int ValidChar(char ch);
+void Keypad();
 
-char InputStack[8] = {'n'};
+char InputStack[10] = "nnnnnnnnnn";
+char KeyStack[36] = "n1n2n3n+nn4n5n6n-nn7n8n9n*nndn0n=n/n";
+int AnsFlag = 0;
 
 int main(void)
 {
@@ -32,10 +35,12 @@ void Screen()
     for (int i = 0; i < 5; i++)
     {
         Line(2);
-        keys(i);
+        keys(i, 0, 10, InputStack);
         Line(2);
         printf("\n");
     }
+
+    Keypad();
 }
 
 void Line(int n)
@@ -49,16 +54,86 @@ void Line(int n)
 
 void Keypad()
 {
-    Line();
-    Line();
+    Line(N);
+    printf("\n");
+    Line(N);
+    printf("\n");
 
-void keys(int k)
-{
-    for (int i = 0; i < 2; i++)
+    int n = 0, m;
+
+    for (int i = 0; i < 4; i++)
     {
-        switch((int)InputStack[i])
+        m = n + 9;
+
+        for (int j = 0; j < 5; j++)
         {
-            case 50:
+            Line(5);
+            keys(j, n, m, KeyStack);
+            Line(5);
+
+            printf("\n");
+        }
+
+        printf("\n");
+
+        n = m;
+    }
+
+    Line(N);
+    printf("\n");
+    Line(N);
+    printf("\n");
+}
+
+void keys(int k, int n, int m, char ch[])
+{
+    for (int i = n; i < m; i++)
+    {
+        switch(ch[i])
+        {
+            case '0':
+            switch(k)
+            {
+                case 0:
+                printf("$***$ ");
+                break;
+                case 1:
+                printf("$   $ ");
+                break;
+                case 2:
+                printf("$   $ ");
+                break;
+                case 3:
+                printf("$   $ ");
+                break;
+                case 4:
+                printf("$***$ ");
+                break;
+            }
+            break;
+
+            case '1':
+            switch(k)
+            {
+                case 0:
+                printf("    $ ");
+                break;
+                case 1:
+                printf("    $ ");
+                break;
+                case 2:
+                printf("    $ ");
+                break;
+                case 3:
+                printf("    $ ");
+                break;
+                case 4:
+                printf("    $ ");
+                break;
+            }
+            break;
+
+            case '2':
             switch(k)
             {
                 case 0:
@@ -79,7 +154,7 @@ void keys(int k)
             }
             break;
 
-            case 51:
+            case '3':
             switch(k)
             {
                 case 0:
@@ -99,6 +174,279 @@ void keys(int k)
                 break;
             }
             break;
+
+            case '4':
+            switch(k)
+            {
+                case 0:
+                printf("$   $ ");
+                break;
+                case 1:
+                printf("$   $ ");
+                break;
+                case 2:
+                printf("$***$ ");
+                break;
+                case 3:
+                printf("    $ ");
+                break;
+                case 4:
+                printf("    $ ");
+                break;
+            }
+            break;
+
+            case '5':
+            switch(k)
+            {
+                case 0:
+                printf("$**** ");
+                break;
+                case 1:
+                printf("$     ");
+                break;
+                case 2:
+                printf("$***$ ");
+                break;
+                case 3:
+                printf("    $ ");
+                break;
+                case 4:
+                printf("****$ ");
+                break;
+            }
+            break;
+
+            case '6':
+            switch(k)
+            {
+                case 0:
+                printf("$**** ");
+                break;
+                case 1:
+                printf("$     ");
+                break;
+                case 2:
+                printf("$***$ ");
+                break;
+                case 3:
+                printf("$   $ ");
+                break;
+                case 4:
+                printf("$***$ ");
+                break;
+            }
+            break;
+
+            case '7':
+            switch(k)
+            {
+                case 0:
+                printf("****$ ");
+                break;
+                case 1:
+                printf("    $ ");
+                break;
+                case 2:
+                printf("    $ ");
+                break;
+                case 3:
+                printf("    $ ");
+                break;
+                case 4:
+                printf("    $ ");
+                break;
+            }
+            break;
+
+            case '8':
+            switch(k)
+            {
+                case 0:
+                printf("$***$ ");
+                break;
+                case 1:
+                printf("$   $ ");
+                break;
+                case 2:
+                printf("$***$ ");
+                break;
+                case 3:
+                printf("$   $ ");
+                break;
+                case 4:
+                printf("$***$ ");
+                break;
+            }
+            break;
+
+            case '9':
+            switch(k)
+            {
+                case 0:
+                printf("$***$ ");
+                break;
+                case 1:
+                printf("$   $ ");
+                break;
+                case 2:
+                printf("$***$ ");
+                break;
+                case 3:
+                printf("    $ ");
+                break;
+                case 4:
+                printf("****$ ");
+                break;
+            }
+            break;
+
+            case '+':
+            switch(k)
+            {
+                case 0:
+                printf("  &   ");
+                break;
+                case 1:
+                printf("  &   ");
+                break;
+                case 2:
+                printf("$$$$$ ");
+                break;
+                case 3:
+                printf("  &   ");
+                break;
+                case 4:
+                printf("  &   ");
+                break;
+            }
+            break;
+
+            case '-':
+            switch(k)
+            {
+                case 0:
+                printf("      ");
+                break;
+                case 1:
+                printf("      ");
+                break;
+                case 2:
+                printf("&&&&& ");
+                break;
+                case 3:
+                printf("      ");
+                break;
+                case 4:
+                printf("      ");
+                break;
+            }
+            break;
+
+            case '*':
+            switch(k)
+            {
+                case 0:
+                printf("#   # ");
+                break;
+                case 1:
+                printf(" # #  ");
+                break;
+                case 2:
+                printf("  $   ");
+                break;
+                case 3:
+                printf(" # #  ");
+                break;
+                case 4:
+                printf("#   # ");
+                break;
+            }
+            break;
+
+            case '/':
+            switch(k)
+            {
+                case 0:
+                printf("    / ");
+                break;
+                case 1:
+                printf("   /  ");
+                break;
+                case 2:
+                printf("  /   ");
+                break;
+                case 3:
+                printf(" /    ");
+                break;
+                case 4:
+                printf("/     ");
+                break;
+            }
+            break;
+
+            case '=':
+            switch(k)
+            {
+                case 0:
+                printf("      ");
+                break;
+                case 1:
+                printf("&&&&& ");
+                break;
+                case 2:
+                printf("      ");
+                break;
+                case 3:
+                printf("&&&&& ");
+                break;
+                case 4:
+                printf("      ");
+                break;
+            }
+            break;
+
+            case 'd':
+            switch(k)
+            {
+                case 0:
+                printf("$&&   ");
+                break;
+                case 1:
+                printf("$  &  ");
+                break;
+                case 2:
+                printf("$   & ");
+                break;
+                case 3:
+                printf("$  &  ");
+                break;
+                case 4:
+                printf("$&&   ");
+                break;
+            }
+            break;
+
+            case 'n':
+            switch(k)
+            {
+                case 0:
+                printf("      ");
+                break;
+                case 1:
+                printf("      ");
+                break;
+                case 2:
+                printf("      ");
+                break;
+                case 3:
+                printf("      ");
+                break;
+                case 4:
+                printf("      ");
+                break;
+            }
+            break;
         }
     }
 }
@@ -107,7 +455,7 @@ void ClearStack()
 {
     for (int i = 0; i < 10; i++)
     {
-        InputStack[i] == 'n';
+        InputStack[i] = 'n';
     }
 }
 
@@ -136,9 +484,9 @@ void input()
         ClearStack();    
     }
 
+    char ch;
     do
     {   
-        char ch;
         scanf("%c", &ch);
         
         if (ValidChar(ch))
