@@ -5,14 +5,15 @@
 #define N 64
 
 void Screen();
-void input();
-void keys(int k, int n, int m, char ch[]);
+void Input();
+void Keys(int k, int n, int m, char ch[]);
 void ClearStack();
 int PushChar(char ch);
 void PopChar();
 void Line();
 int ValidChar(char ch);
 void Keypad();
+void Calculate();
 
 char InputStack[10] = "nnnnnnnnnn";
 char KeyStack[36] = "n1n2n3n+nn4n5n6n-nn7n8n9n*nndn0n=n/n";
@@ -20,7 +21,10 @@ int AnsFlag = 0;
 
 int main(void)
 {
-    Screen();
+    while (1)
+    {
+        Screen();
+    }
 
     return 0;
 }
@@ -35,7 +39,7 @@ void Screen()
     for (int i = 0; i < 5; i++)
     {
         Line(2);
-        keys(i, 0, 10, InputStack);
+        Keys(i, 0, 10, InputStack);
         Line(2);
         printf("\n");
     }
@@ -68,7 +72,7 @@ void Keypad()
         for (int j = 0; j < 5; j++)
         {
             Line(5);
-            keys(j, n, m, KeyStack);
+            Keys(j, n, m, KeyStack);
             Line(5);
 
             printf("\n");
@@ -83,9 +87,11 @@ void Keypad()
     printf("\n");
     Line(N);
     printf("\n");
+
+    Input();
 }
 
-void keys(int k, int n, int m, char ch[])
+void Keys(int k, int n, int m, char ch[])
 {
     for (int i = n; i < m; i++)
     {
@@ -477,7 +483,7 @@ int PushChar(char ch)
         return 0;
     }
 }
-void input()
+void Input()
 {
     if (AnsFlag == 1)
     {
@@ -485,9 +491,11 @@ void input()
     }
 
     char ch;
+    char ch1;
     do
     {   
         scanf("%c", &ch);
+        scanf("%c", &ch1);
         
         if (ValidChar(ch))
         {
@@ -501,9 +509,6 @@ void input()
     {
         if (!PushChar(ch))
         {
-            printf("Maximum capacity to hold a number has been reached.\n");
-            printf("Please enter a smaller number.\n");
-
             ClearStack();
         }
     }
@@ -524,11 +529,13 @@ void input()
         ClearStack();
         PushChar(ch);
     }
+
+    Calculate();
 }
 
 void PopChar()
 {
-    for (int i = 0; i < 9; i++)
+    for (int i = 8; i >= 0; i--)
     {
         InputStack[i + 1] = InputStack[i];
     }
@@ -614,4 +621,7 @@ int ValidChar(char ch)
     }
 }
 
-
+void Calculate()
+{
+    clear();
+}
