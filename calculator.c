@@ -18,6 +18,8 @@ void Calculate();
 char InputStack[10] = "nnnnnnnnnn";
 char KeyStack[36] = "n1n2n3n+nn4n5n6n-nn7n8n9n*nndn0n=n/n";
 int AnsFlag = 0;
+long long int a = 0, Ans = 0, b = 0;
+char op = 'n';
 
 int main(void)
 {
@@ -467,6 +469,11 @@ void ClearStack()
 
 int PushChar(char ch)
 {
+    if (!isdigit(InputStack[9]))
+    {
+        ClearStack();
+    }
+
     if (InputStack[0] == 'n')
     {
         for (int i = 1; i < 10; i++)
@@ -492,6 +499,8 @@ void Input()
 
     char ch;
     char ch1;
+    int k = 0;
+
     do
     {   
         scanf("%c", &ch);
@@ -516,6 +525,15 @@ void Input()
     {
         if (ch == 'd')
         {
+            if (isdigit(InputStack[9]))
+            {
+                k = 1;
+            }
+            else
+            {
+                k = 2;
+            }
+                    
             PopChar();
         }
 
@@ -526,11 +544,16 @@ void Input()
     }
     else
     {
+        if (AnsFlag == 1)
+        {
+            AnsFlag = 0;
+        }
+
         ClearStack();
         PushChar(ch);
     }
 
-    Calculate();
+    Calculate(k);
 }
 
 void PopChar()
@@ -621,7 +644,98 @@ int ValidChar(char ch)
     }
 }
 
-void Calculate()
+void Calculate(int k)
 {
+    char ch = InputStack[9];
+
+    if (k == 0)
+    {   
+        if (isdigit(ch))
+        {
+            if (AnsFlag == 0)
+            {
+                a = (a * 10) + ((int)ch - 48);
+                printf("%lld", a);
+
+                int t = a;
+                int i = 9;
+
+                while (t > 0)
+                {
+                    if (InputStack[i] != (char)((t % 10) + 48))
+                    {
+                        InputStack[i] = (char)((t % 10) + 48);
+                    }
+
+                    i--;
+                    t = t / 10;
+                }
+            }
+
+            if (AnsFlag == 1)
+            {
+                a = 0;
+                a = (a * 10) + ((int)ch - 48);
+            }
+        }
+        else
+        {
+            if (ch == '=')
+            {
+                switch (op)
+                {
+                    case '+':
+                    Ans = b + a;
+                    break;
+
+                    case '-':
+                    Ans = b - a;
+                    break;
+
+                    case '*':
+                    Ans = b * a;
+                    break;
+
+                    case '/':
+                    Ans = b / a;
+                    break;
+                }
+
+                a = Ans;
+                printf("%lld", Ans);
+                AnsFlag = 1;
+
+                for (int i = 9; i >= 0; i--)
+                {
+                    InputStack[i] = (char)((Ans % 10) + 48);
+                    Ans = Ans / 10;
+
+                    if(Ans == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                b = a;
+                printf("%lld", a);
+                a = 0;
+                op = ch;
+                printf("%c", op);
+            }
+        }
+    }
+
+    if (k == 1)
+    {
+        a = a / 10;
+    }
+
+    if (k == 2)
+    {
+        op = 'n';
+    }
+        
     clear();
 }
