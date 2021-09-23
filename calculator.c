@@ -655,7 +655,6 @@ void Calculate(int k)
             if (AnsFlag == 0)
             {
                 a = (a * 10) + ((int)ch - 48);
-                printf("%lld", a);
 
                 int t = a;
                 int i = 9;
@@ -702,7 +701,6 @@ void Calculate(int k)
                 }
 
                 a = Ans;
-                printf("%lld", Ans);
                 AnsFlag = 1;
 
                 for (int i = 9; i >= 0; i--)
@@ -719,10 +717,8 @@ void Calculate(int k)
             else
             {
                 b = a;
-                printf("%lld", a);
                 a = 0;
                 op = ch;
-                printf("%c", op);
             }
         }
     }
